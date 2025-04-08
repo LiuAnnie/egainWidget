@@ -1,6 +1,6 @@
 # Vue Widget
 
-A customizable interactive guidance widget built with Vue.js 3 for HR question handling.
+Hi eGain! Here's a customizable interactive guidance widget built with Vue.js 3 for HR question handling.
 
 ## Features
 
