@@ -1,20 +1,33 @@
-# Vue Widget
+# eGain Interactive Guidance Widget
 
-Hi eGain! Here's a customizable interactive guidance widget built with Vue.js 3 for HR question handling.
+A customizable interactive guidance widget built with Vue.js 3 for HR question handling. This widget provides a seamless, user-friendly interface for collecting information through a series of questions and providing personalized solutions.
 
 ## Features
 
-- Interactive question flow with single-question-per-page design
-- Multiple question types:
+- **Flexible Presentation Modes**:
+  - Single question mode: Questions appear one at a time (default)
+  - Multiple questions mode: All questions appear at once after the initial problem description
+- **Multiple Question Types**:
   - Text enumeration (dropdown)
   - Image enumeration (with icons)
   - Text box input
   - Numerical input
-- Dark mode support (follows system preferences)
-- Customizable styling through props
-- Responsive design
-- Feedback system
-- Editable answer history
+- **Answer Management**:
+  - Review all answers at the end of the session
+  - Edit previous answers with the pencil icon
+  - Save or cancel changes to answers
+- **Feedback System**:
+  - Provide thumbs up/down feedback on solutions
+  - Complete the session with a "Done" button
+- **Responsive Design**:
+  - Adapts to different screen sizes and devices
+  - Mobile-friendly interface
+- **Dark Mode Support**:
+  - Automatically follows system preferences
+  - Can be manually configured
+- **Customizable Styling**:
+  - Colors, fonts, and logo can be customized
+  - Consistent branding across the widget
 
 ## Prerequisites
 
@@ -70,25 +83,56 @@ Hi eGain! Here's a customizable interactive guidance widget built with Vue.js 3 
 
 ## Customization
 
-The application can be customized through props:
+The widget can be customized through configuration options:
 
 ```javascript
-                const widget = new VueWidget({
-                     target: '#widget-container',
-                     config: {
-                         logo: 'public/images/logo.svg',
-                         colors: {
-                             primary: '#470FF4',
-                             secondary: '#89AAE6',
-                             background: '#EBFFED',
-                             text: '#2E3532',
-                             accent: '#2F242C'
-                         },
-                         presentation: 'single', // Set to 'single' for a single question at a time, 'multiple' for all questions at once.
-                     },
-                     headerText: 'MyHR',
-                     isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches
+const widget = new VueWidget({
+  target: '#widget-container',
+  config: {
+    // Logo for the widget header
+    logo: '/images/logo.svg',
+    
+    // Color scheme
+    colors: {
+      primary: '#470FF4',
+      secondary: '#89AAE6',
+      background: '#EBFFED',
+      text: '#2E3532',
+      accent: '#2F242C'
+    },
+    
+    // Font settings
+    fonts: {
+      primary: 'Arial, sans-serif',
+      sizes: {
+        heading: '24px',
+        subheading: '18px',
+        body: '16px'
+      }
+    },
+    
+    // Presentation mode: 'single' or 'multiple'
+    presentation: 'single' // Set to 'single' for one question at a time, 'multiple' for all questions at once
+  },
+  headerText: 'MyHR',
+  isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches
+});
 ```
+
+### Presentation Modes
+
+The widget supports two presentation modes:
+
+1. **Single Mode** (default):
+   - Questions appear one at a time
+   - User must answer each question before proceeding
+   - Provides a focused, step-by-step experience
+
+2. **Multiple Mode**:
+   - All questions appear at once after the initial problem description
+   - User can answer questions in any order
+   - Submit button becomes enabled when all questions are answered
+   - Provides a comprehensive view of all required information
 
 ## Building for Production
 
@@ -130,31 +174,77 @@ The application can be customized through props:
 3. Your widget will be available at:
    `https://[your-username].github.io/vue-widget/`
 
-### Using the Widget in Other Projects
+### Embedding the Widget in Other Projects
 
 1. Include the required files in your HTML:
    ```html
+   <!-- Load Vue.js first -->
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   
+   <!-- Load widget styles -->
    <link rel="stylesheet" href="path/to/style.css">
+   
+   <!-- Load widget script -->
    <script src="path/to/vue-widget.umd.js"></script>
    ```
 
-2. Initialize the widget:
+2. Add a container for the widget:
    ```html
    <div id="widget-container"></div>
+   ```
+
+3. Initialize the widget:
+   ```html
    <script>
-     const widget = new VueWidget({
-       container: '#widget-container',
-       config: {
-         logo: '/images/logo.svg',
-         colors: {
-           primary: '#4CAF50',
-           secondary: '#2196F3'
-         }
-       },
-       headerText: 'HR Assistant',
-       isDarkMode: false
-     });
-     widget.mount();
+     // Wait for both Vue and the widget script to load
+     function initializeWidget() {
+       if (typeof Vue === 'undefined') {
+         console.error('Vue is not loaded');
+         return;
+       }
+       if (typeof VueWidget === 'undefined') {
+         console.error('VueWidget is not loaded');
+         return;
+       }
+
+       try {
+         const widget = new VueWidget({
+           target: '#widget-container',
+           config: {
+             logo: '/images/logo.svg',
+             colors: {
+               primary: '#470FF4',
+               secondary: '#89AAE6',
+               background: '#EBFFED',
+               text: '#2E3532',
+               accent: '#2F242C'
+             },
+             presentation: 'single', // or 'multiple'
+             fonts: {
+               primary: 'Arial, sans-serif',
+               sizes: {
+                 heading: '24px',
+                 subheading: '18px',
+                 body: '16px'
+               }
+             }
+           },
+           headerText: 'HR Assistant',
+           isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches
+         });
+
+         widget.mount();
+       } catch (error) {
+         console.error('Error initializing widget:', error);
+       }
+     }
+
+     // Initialize when the page loads
+     if (document.readyState === 'loading') {
+       document.addEventListener('DOMContentLoaded', initializeWidget);
+     } else {
+       initializeWidget();
+     }
    </script>
    ```
 
@@ -174,6 +264,10 @@ The application can be customized through props:
 3. Styling issues:
    - Confirm that `style.css` is properly loaded
    - Check that the container element exists in the DOM
+
+4. Presentation mode not working:
+   - Verify that the `presentation` property is set correctly in the config
+   - Valid values are 'single' or 'multiple'
 
 ## Contributing
 
