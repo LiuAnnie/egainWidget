@@ -25,20 +25,43 @@
           ←
         </button>
         <div class="question-container">
-          <h3>{{ currentQuestions[currentQuestionIndex].text }}</h3>
-          <component
-            :is="getQuestionComponent(currentQuestions[currentQuestionIndex].type)"
-            :question="currentQuestions[currentQuestionIndex]"
-            v-model="answers[currentQuestions[currentQuestionIndex].id]"
-            :is-dark-mode="isDarkMode"
-          />
-          <button 
-            @click="goToNextQuestion" 
-            :disabled="!answers[currentQuestions[currentQuestionIndex].id]"
-            class="continue-button"
-          >
-            Continue
-          </button>
+          <!-- Single question mode -->
+          <template v-if="config.presentation === 'single'">
+             <h3>{{ currentQuestions[currentQuestionIndex].text }}</h3>
+             <component
+               :is="getQuestionComponent(currentQuestions[currentQuestionIndex].type)"
+               :question="currentQuestions[currentQuestionIndex]"
+               v-model="answers[currentQuestions[currentQuestionIndex].id]"
+               :is-dark-mode="isDarkMode"
+             />
+             <button 
+               @click="goToNextQuestion" 
+               :disabled="!answers[currentQuestions[currentQuestionIndex].id]"
+               class="continue-button"
+             >
+               Continue
+             </button>
+           </template>
+           
+           <!-- Multiple questions mode -->
+           <template v-else>
+             <div v-for="question in currentQuestions" :key="question.id" class="question-item">
+               <h3>{{ question.text }}</h3>
+               <component
+                 :is="getQuestionComponent(question.type)"
+                 :question="question"
+                 v-model="answers[question.id]"
+                 :is-dark-mode="isDarkMode"
+               />
+             </div>
+             <button 
+               @click="submitAnswers" 
+               :disabled="!canSubmitAnswers"
+               class="continue-button"
+             >
+               Submit
+             </button>
+           </template>
         </div>
       </div>
 
@@ -104,7 +127,7 @@
               👎
             </button>
           </div>
-          <button @click="resetWidget" class="reset-button">Done</button>
+          <button @click="resetWidget" class="continue-button">Done</button>
         </div>
       </div>
     </div>
@@ -147,7 +170,8 @@ export default {
             subheading: '18px',
             body: '16px'
           }
-        }
+        },
+        presentation: 'single' // Set to 'single' for a single question at a time, 'multiple' for all questions at once.
       })
     },
     isDarkMode: {

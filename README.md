@@ -73,23 +73,21 @@ Hi eGain! Here's a customizable interactive guidance widget built with Vue.js 3 
 The application can be customized through props:
 
 ```javascript
-const config = {
-  logo: '/',
-  colors: {
-    primary: '#4CAF50',
-    secondary: '#2196F3',
-    background: '#ffffff',
-    text: '#333333'
-  },
-  fonts: {
-    primary: 'Arial, sans-serif',
-    sizes: {
-      heading: '24px',
-      subheading: '18px',
-      body: '16px'
-    }
-  }
-}
+                const widget = new VueWidget({
+                     target: '#widget-container',
+                     config: {
+                         logo: 'public/images/logo.svg',
+                         colors: {
+                             primary: '#470FF4',
+                             secondary: '#89AAE6',
+                             background: '#EBFFED',
+                             text: '#2E3532',
+                             accent: '#2F242C'
+                         },
+                         presentation: 'single', // Set to 'single' for a single question at a time, 'multiple' for all questions at once.
+                     },
+                     headerText: 'MyHR',
+                     isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches
 ```
 
 ## Building for Production
