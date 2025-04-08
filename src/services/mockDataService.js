@@ -62,14 +62,16 @@ export const mockDataService = {
     // Generate a solution that references all the answers
     const questionType = answers[1] || 'unknown'
     const guidanceFormat = answers[2] || 'unknown'
-    const email = answers[3] || 'no email provided'
+    const additionalInfo = answers[3] || 'no additional information provided'
     const employeeId = answers[4] || 'unknown'
 
     // Determine the correct article based on the guidance format
     const article = guidanceFormat.toLowerCase().startsWith('ai') ? 'an' : 'a'
 
     return `
-    We've received your request on information about ${questionType}.
+    Initial Request: "${answers.problemDescription || 'No initial request provided'}"
+
+    <br><br>We've received your request on information about ${questionType}.
     We'll send ${article} ${guidanceFormat} to your email address.
     Typical response time is 2 minutes, but more complicated requests can take up to 2 hours.
     Thank you for your patience.<br><br>

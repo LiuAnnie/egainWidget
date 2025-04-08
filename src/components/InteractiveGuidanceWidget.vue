@@ -253,6 +253,7 @@ export default {
       
       try {
         await new Promise(resolve => setTimeout(resolve, 1500))
+        this.answers.problemDescription = this.problemDescription
         this.solution = await mockDataService.getSolution(this.answers)
         this.showSolution = true
       } catch (error) {

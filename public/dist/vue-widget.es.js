@@ -264,7 +264,9 @@ const se = /* @__PURE__ */ h(K, [["render", te], ["__scopeId", "data-v-74235f52"
     e[3];
     const d = e[4] || "unknown", n = s.toLowerCase().startsWith("ai") ? "an" : "a";
     return `
-    We've received your request on information about ${t}.
+    Initial Request: "${e.problemDescription || "No initial request provided"}"
+
+    <br><br>We've received your request on information about ${t}.
     We'll send ${n} ${s} to your email address.
     Typical response time is 2 minutes, but more complicated requests can take up to 2 hours.
     Thank you for your patience.<br><br>
@@ -408,7 +410,7 @@ const oe = /* @__PURE__ */ h(ne, [["render", ie], ["__scopeId", "data-v-e1d915a2
         isEditing: !1
       })), this.currentQuestions = [];
       try {
-        await new Promise((e) => setTimeout(e, 1500)), this.solution = await f.getSolution(this.answers), this.showSolution = !0;
+        await new Promise((e) => setTimeout(e, 1500)), this.answers.problemDescription = this.problemDescription, this.solution = await f.getSolution(this.answers), this.showSolution = !0;
       } catch (e) {
         console.error("Error fetching solution:", e), this.solution = "Sorry, there was an error generating your solution. Please try again.", this.showSolution = !0;
       } finally {
@@ -619,7 +621,7 @@ function De(e, t, s, d, n, r) {
     ])
   ], 2);
 }
-const Ee = /* @__PURE__ */ h(re, [["render", De], ["__scopeId", "data-v-95d3028d"]]);
+const Ee = /* @__PURE__ */ h(re, [["render", De], ["__scopeId", "data-v-afdb0fb1"]]);
 class Me {
   constructor(t = {}) {
     this.options = {
